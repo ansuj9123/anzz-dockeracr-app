@@ -9,7 +9,7 @@ permissions:
 
 env:
     ACR_NAME: ansujacr001 # Azure Container Registry name
-    IMAGE_NAME: nodejs-docker-app 
+    IMAGE_NAME: nodejs-docker-app # Docker image name
 
 jobs:
     build-and-push:
