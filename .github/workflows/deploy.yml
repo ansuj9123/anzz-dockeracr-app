@@ -48,6 +48,6 @@ jobs:
         $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }} \
         $ACR_NAME.azurecr.io/$IMAGE_NAME:latest
 
-    - name: Push Latest
+    - name: Push Latest Tag
       run: |
         docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:latest
