@@ -2,7 +2,6 @@ name: Build and Push Docker Image
 
 on:
     push:
-      
 
 permissions:
     id-token: write
@@ -10,7 +9,7 @@ permissions:
 
 env:
     ACR_NAME: ansujacr001 # Azure Container Registry name
-    IMAGE_NAME: nodejs-docker-app
+    IMAGE_NAME: nodejs-docker-app # docker image name
 
 jobs:
     build-and-push:
@@ -25,7 +24,6 @@ jobs:
               with:
                   client-id: ${{ secrets.AZURE_CLIENT_ID }}
                   tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-                  auth-type: oidc
                   subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
             - name: Login to ACR
