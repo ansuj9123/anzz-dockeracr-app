@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 env:
-  ACR_NAME: ansujacr001
+  ACR_NAME: ansujacr001 # Azure Container Registry name
   IMAGE_NAME: nodejs-docker-app
 
 jobs:
