@@ -1,49 +1,58 @@
 name: Build and Push Docker Image
 
 on:
-    push:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to build and push Docker image'
+        required: true
+        default: 'feat-docker-app'   # fix: actual branch name, not 'true'
+  push:
+    branches:
+      - feat-docker-app              # fix: scope to this branch only
+    paths:
+      - 'src/**'                     # fix: matches your actual repo structure
 
 permissions:
-    id-token: write
-    contents: read
+  id-token: write
+  contents: read
 
 env:
-    ACR_NAME: ansujacr001 # Azure Container Registry name
-    IMAGE_NAME: nodejs-docker-app # Docker image name
+  ACR_NAME: ansujacr001
+  IMAGE_NAME: nodejs-docker-app
 
 jobs:
-    build-and-push:
-        runs-on: ubuntu-latest
+  build-and-push:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-            - name: Azure Login via OIDC
-              uses: azure/login@v2
-              with:
-                  client-id: ${{ secrets.AZURE_CLIENT_ID }}
-                  tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-                  subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Azure Login via OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-            - name: Login to ACR
-              run: |
-                  az acr login --name $ACR_NAME
+      - name: Login to ACR
+        run: az acr login --name ${{ env.ACR_NAME }}
 
-            - name: Build Docker Image
-              run: |
-                  docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }} .
+      - name: Build Docker Image
+        run: |
+          docker build \
+            -f Dockerfile \
+            -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            .
 
-            - name: Push Docker Image
-              run: |
-                  docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }}
+      - name: Push Docker Image
+        run: |
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-            - name: Tag Latest
-              run: |
-                  docker tag \
-                  $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }} \
-                  $ACR_NAME.azurecr.io/$IMAGE_NAME:latest
-
-            - name: Push Latest Tag
-              run: |
-                  docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:latest
+      - name: Tag and Push Latest
+        run: |
+          docker tag \
+            ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
