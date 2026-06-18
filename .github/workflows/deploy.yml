@@ -13,6 +13,10 @@ permissions:
 
 env:
     IMAGE_NAME: nodejs-docker-app
+    ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+    ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+    ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    ARM_USE_OIDC: true
 
 jobs:
     build:
@@ -34,21 +38,37 @@ jobs:
               run: |
                   az account show
 
-            - name: Debug Repository Structure
-              run: |
-                  pwd
-                  find . -name Dockerfile
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
 
-            - name: Build Docker Image
+            - name: Terraform Init
+              run: terraform init
+              working-directory: development
+
+            - name: Terraform Apply
+              id: tf-apply
               run: |
+                  terraform apply -auto-approve -var="service_principal_object_id=${{ secrets.AZURE_SP_OBJECT_ID }}"
+                  echo "ACR_NAME=$(terraform output -raw acr_name)" >> $GITHUB_OUTPUT
+                  echo "ACR_LOGIN_SERVER=$(terraform output -raw acr_login_server)" >> $GITHUB_OUTPUT
+              working-directory: development
+
+            - name: Log in to ACR
+              run: |
+                  az acr login --name ${{ steps.tf-apply.outputs.ACR_NAME }}
+
+            - name: Build and Push Docker Image
+              run: |
+                  # Build and tag the image for ACR
                   docker build \
                     -f environments/Dockerfile \
-                    -t $IMAGE_NAME:${{ github.sha }} \
+                    -t ${{ steps.tf-apply.outputs.ACR_LOGIN_SERVER }}/$IMAGE_NAME:${{ github.sha }} \
+                    -t ${{ steps.tf-apply.outputs.ACR_LOGIN_SERVER }}/$IMAGE_NAME:latest \
                     environments
 
-            - name: Show Docker Images
-              run: |
-                  docker images
+                  # Push the image to the registry
+                  docker push ${{ steps.tf-apply.outputs.ACR_LOGIN_SERVER }}/$IMAGE_NAME:${{ github.sha }}
+                  docker push ${{ steps.tf-apply.outputs.ACR_LOGIN_SERVER }}/$IMAGE_NAME:latest
 
 # This workflow is for docker and we will be creating azure container registry to
 # push the docker image to the acr
