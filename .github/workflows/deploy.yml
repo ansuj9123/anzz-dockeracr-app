@@ -2,15 +2,10 @@ name: Build Docker Image
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to build'
-        required: false
-        default: 'main'
 
   push:
     branches:
-      - '*'
+      - '**'
 
 permissions:
   id-token: write
@@ -22,6 +17,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: dev
 
     steps:
       - name: Checkout Code
@@ -38,9 +34,17 @@ jobs:
         run: |
           az account show
 
+      - name: Debug Repository Structure
+        run: |
+          pwd
+          find . -name Dockerfile
+
       - name: Build Docker Image
         run: |
-          docker build -t $IMAGE_NAME:${{ github.sha }} .
+          docker build \
+            -f environments/Dockerfile \
+            -t $IMAGE_NAME:${{ github.sha }} \
+            environments
 
       - name: Show Docker Images
         run: |
