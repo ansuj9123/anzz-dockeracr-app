@@ -23,7 +23,7 @@ variable "service_principal_object_id" {
 variable "service_principal_client_id" {
   type        = string
   description = "The Client/Application ID of the Service Principal (optional). If provided, Terraform will resolve the Object ID via the azuread provider."
-  default     = ""
+  default     = "0a451f6f-0e0f-42ca-ae00-76769bd2ea71"
 }
 
 variable "service_principal_validation" {
