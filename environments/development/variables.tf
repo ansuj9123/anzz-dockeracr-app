@@ -32,12 +32,4 @@ variable "service_principal_validation" {
   description = "(internal) validation toggle - do not set"
 }
 
-/* Ensure at least one of object_id or client_id is provided */
-variable "service_principal_input_check" {
-  type = string
-  default = ""
-  validation {
-    condition = (length(trim(var.service_principal_object_id)) > 0) || (length(trim(var.service_principal_client_id)) > 0)
-    error_message = "Provide either service_principal_object_id (Object ID) or service_principal_client_id (Application/Client ID)."
-  }
-}
+
