@@ -32,4 +32,19 @@ variable "service_principal_validation" {
   description = "(internal) validation toggle - do not set"
 }
 
+# this for the conta8iner app
 
+variable "container_app_name" {
+  type    = string
+  default = "anzz-nodejs-app"
+}
+
+variable "container_app_environment_name" {
+  type    = string
+  default = "anzz-containerapp-env"
+}
+
+variable "container_port" {
+  type    = number
+  default = 3000
+}
