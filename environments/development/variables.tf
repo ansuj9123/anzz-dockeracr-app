@@ -34,22 +34,22 @@ variable "service_principal_validation" {
 
 # this for the conta8iner app
 
-variable "container_app_name" {
-  type    = string
-  default = "anzz-nodejs-app"
-}
+# variable "container_app_name" {
+#   type    = string
+#   default = "anzz-nodejs-app"
+# }
 
-variable "container_app_environment_name" {
-  type    = string
-  default = "anzz-containerapp-env"
-}
+# variable "container_app_environment_name" {
+#   type    = string
+#   default = "anzz-containerapp-env"
+# }
 
-variable "container_port" {
-  type    = number
-  default = 3000
-}
+# variable "container_port" {
+#   type    = number
+#   default = 3000
+# }
 
-variable "container_app_image" {
-  type    = string
-  default = "nodejs-docker-app"
-}
+# variable "container_app_image" {
+#   type    = string
+#   default = "nodejs-docker-app"
+# }
