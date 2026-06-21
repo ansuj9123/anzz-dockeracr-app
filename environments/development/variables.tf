@@ -48,3 +48,8 @@ variable "container_port" {
   type    = number
   default = 3000
 }
+
+variable "container_app_image" {
+  type    = string
+  default = "nodejs-docker-app"
+}

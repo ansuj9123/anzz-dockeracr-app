@@ -1,11 +1,11 @@
 resource "azurerm_container_app_environment" "env" {
-  name                = "var.container_app_environment_name"
+  name                = var.container_app_environment_name
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 }
 
 resource "azurerm_container_app" "app" {
-  name                         = "var.container_app_name"
+  name                         = var.container_app_name
   resource_group_name          = azurerm_resource_group.rg.name
   container_app_environment_id = azurerm_container_app_environment.env.id
 
@@ -23,7 +23,7 @@ resource "azurerm_container_app" "app" {
   template {
     container {
       name   = "nodejs-app"
-      image  = "${azurerm_container_registry.acr.login_server}/var.container_app_image :latest"
+      image  = "${azurerm_container_registry.acr.login_server}/${var.container_app_image}:latest"
 
       cpu    = 0.5
       memory = "1Gi"
