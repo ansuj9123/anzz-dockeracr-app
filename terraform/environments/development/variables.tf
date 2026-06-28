@@ -32,27 +32,6 @@ variable "service_principal_validation" {
   description = "(internal) validation toggle - do not set"
 }
 
-# this for the conta8iner app
-
-variable "container_app_name" {
-  type    = string
-  default = "anzz-nodejs-app"
-}
-
-variable "container_app_environment_name" {
-  type    = string
-  default = "anzz-containerapp-env"
-}
-
-variable "container_port" {
-  type    = number
-  default = 3000
-}
-
-variable "container_app_image" {
-  type    = string
-  default = "nodejs-docker-app"
-}
 
 variable "webapp_name" {
   default = "anzz-nodejs-webapp"
@@ -60,4 +39,10 @@ variable "webapp_name" {
 
 variable "service_plan_name" {
   default = "anzz-linux-plan"
+}
+
+variable "service_principal_client_id" {
+    type        = string
+    description = "The Client/Application ID of the Service Principal (optional). If provided, Terraform will resolve the Object ID via the azuread provider."
+    default     = ""
 }

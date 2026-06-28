@@ -43,3 +43,8 @@ variable "container_port" {
   description = "Port exposed by the container"
   type        = number
 }
+
+variable "container_image" {
+  description = "Container Image Repository"
+  type        = string
+}

@@ -43,7 +43,7 @@ jobs:
 
             - name: Terraform Init
               run: terraform init
-              working-directory: terraform/environments/development/../../modules/webapp
+              working-directory: terraform/environments/development
 
             - name: Terraform Apply
               id: tf-apply
@@ -51,7 +51,7 @@ jobs:
                   terraform apply -auto-approve -var="service_principal_object_id=${{ secrets.AZURE_SP_OBJECT_ID }}"
                   echo "ACR_NAME=$(terraform output -raw acr_name)" >> $GITHUB_OUTPUT
                   echo "ACR_LOGIN_SERVER=$(terraform output -raw acr_login_server)" >> $GITHUB_OUTPUT
-              working-directory: terraform/environments/development/../../modules/webapp
+              working-directory: terraform/environments/development
 
             - name: Log in to ACR
               run: |
