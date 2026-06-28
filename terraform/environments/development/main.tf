@@ -49,3 +49,21 @@ resource "azurerm_role_assignment" "acr_push" {
   principal_id         = local.principal_id
 }
 
+module "webapp" {
+
+  source = "../../modules/webapp"
+
+  webapp_name       = var.webapp_name
+  service_plan_name = var.service_plan_name
+
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+
+  acr_id           = azurerm_container_registry.acr.id
+  acr_login_server = azurerm_container_registry.acr.login_server
+
+  container_image = var.container_app_image
+  image_tag       = "latest"
+
+  container_port = var.container_port
+}

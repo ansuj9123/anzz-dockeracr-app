@@ -53,3 +53,11 @@ variable "container_app_image" {
   type    = string
   default = "nodejs-docker-app"
 }
+
+variable "webapp_name" {
+  default = "anzz-nodejs-webapp"
+}
+
+variable "service_plan_name" {
+  default = "anzz-linux-plan"
+}
