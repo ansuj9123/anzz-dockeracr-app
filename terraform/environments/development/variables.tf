@@ -40,9 +40,3 @@ variable "webapp_name" {
 variable "service_plan_name" {
   default = "anzz-linux-plan"
 }
-
-variable "service_principal_client_id" {
-    type        = string
-    description = "The Client/Application ID of the Service Principal (optional). If provided, Terraform will resolve the Object ID via the azuread provider."
-    default     = ""
-}
