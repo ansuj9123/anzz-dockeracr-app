@@ -51,7 +51,7 @@ resource "azurerm_role_assignment" "acr_push" {
 
 module "webapp" {
 
-  source = "../../modules/webapp"
+  source = "../../modules/webapp/"
 
   webapp_name       = var.webapp_name
   service_plan_name = var.service_plan_name
