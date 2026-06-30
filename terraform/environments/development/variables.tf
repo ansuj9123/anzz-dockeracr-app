@@ -40,3 +40,15 @@ variable "webapp_name" {
 variable "service_plan_name" {
   default = "anzz-linux-plan"
 }
+
+variable "container_app_image" {
+  type        = string
+  description = "Container image name in ACR (e.g. nodejs-docker-app)"
+  default     = "nodejs-docker-app"
+}
+
+variable "container_port" {
+  type        = number
+  description = "Port exposed by the container"
+  default     = 3000
+}
