@@ -20,7 +20,7 @@ env:
 
 jobs:
     build:
-         name: build and Deploy to Azure
+        name: build and Deploy to Azure
         runs-on: ubuntu-latest
         environment: dev
 
