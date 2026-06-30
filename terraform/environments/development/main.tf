@@ -32,9 +32,10 @@ resource "azurerm_container_registry" "acr" {
 
 # Resolve a Service Principal by client (application) ID if provided
 data "azuread_service_principal" "sp" {
-  count         = length(trimspace(var.service_principal_client_id)) > 0 ? 1 : 0
-  application_id = var.service_principal_client_id
+  count     = length(trimspace(var.service_principal_client_id)) > 0 ? 1 : 0
+  client_id = var.service_principal_client_id  # was: application_id
 }
+
 
 locals {
   principal_id = length(trimspace(var.service_principal_object_id)) > 0 ? var.service_principal_object_id : (
