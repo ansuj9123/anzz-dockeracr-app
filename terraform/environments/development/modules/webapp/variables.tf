@@ -28,11 +28,6 @@ variable "acr_login_server" {
   type        = string
 }
 
-variable "container_app_image" {
-  description = "Container Image Repository"
-  type        = string
-}
-
 variable "image_tag" {
   description = "Container Image Tag"
   type        = string
