@@ -51,5 +51,5 @@ variable "container_app_image" {
 variable "container_port" {
   type        = number
   description = "Port exposed by the container"
-  default     = 3000
+  default     = 5000
 }

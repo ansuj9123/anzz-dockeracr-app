@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || process.env.WEBSITES_PORT || 5000;
 
 // Middleware
 app.use(express.json());
