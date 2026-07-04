@@ -5,7 +5,7 @@ variable "resource_group_name" {
 
 variable "location" {
   type    = string
-  default = "West US"  # or "West Europe", "Central US"
+  default = "eastus"  # use canonical region slug; change if needed
 }
 
 
