@@ -61,12 +61,12 @@ jobs:
 
             - name: Build and Push Docker Image
               run: |
-                  # Build and tag the image for ACR using the repository root as build context
+                  # Build and tag the image for ACR using the terraform directory as build context
                   docker build \
                     -f terraform/Dockerfile \
                     -t ${{ steps.tf-apply.outputs.ACR_LOGIN_SERVER }}/$IMAGE_NAME:${{ github.sha }} \
                     -t ${{ steps.tf-apply.outputs.ACR_LOGIN_SERVER }}/$IMAGE_NAME:latest \
-                    .
+                    terraform
 
                   # Push the image to the registry
                   docker push ${{ steps.tf-apply.outputs.ACR_LOGIN_SERVER }}/$IMAGE_NAME:${{ github.sha }}
